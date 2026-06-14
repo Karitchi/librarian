@@ -8,9 +8,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const response = await fetch('http://localhost:8080/api/books');
   const result = await response.json();
 
-  console.log(result)
-
-  return { books: result.data };  // Extract and rename
+  return { books: result };  // Extract and rename
 }
 
 // Optional: Show loading UI while clientLoader runs
