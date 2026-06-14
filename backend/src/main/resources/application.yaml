@@ -13,3 +13,6 @@ spring:
     hibernate:
       ddl-auto: none  # Don't modify your existing table
     show-sql: true    # See SQL queries in console
+  jwt:
+    secret: ${JWT_SECRET:mySuperSecretKeyForJWTThatIsAtLeast32CharsLong}
+    expiration: 86400000  # 24 hours in milliseconds
