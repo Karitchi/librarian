@@ -13,7 +13,7 @@ Monorepo: `frontend/` (React), `backend/` (Spring Boot). No monorepo tool — ea
   - `npm run build` — production build
   - `npm run typecheck` — runs `react-router typegen && tsc` (typegen first)
   - `npm run start` — production server (via `react-router-serve`)
-- **Routes** (`app/routes/`): `/` (home), `/signin`, `/signup`, `/books`, `/books/:id`
+- **Routes** (`app/routes/`): `/` (home, public), `/signin` (public), `/signup` (public), `/books`, `/books/:id`, `/rentals` (all others wrapped in `_protected` layout that redirects to `/signin` if no token)
 
 ## Backend
 

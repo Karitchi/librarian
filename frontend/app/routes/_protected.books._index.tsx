@@ -1,12 +1,9 @@
-import type { Route } from "./+types/books";
+import type { Route } from "./+types/_protected.books._index";
 import { BookCard } from "../components/BookCard";
-import { useState, useEffect } from "react";
-import { Link, redirect } from "react-router";
+import { Link } from "react-router";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const token = localStorage.getItem('token');
-  if (!token) throw redirect("/signin");
-
   const response = await fetch('http://localhost:8080/api/books', {
     headers: {
       'Authorization': `Bearer ${token}`  // Add the token here
