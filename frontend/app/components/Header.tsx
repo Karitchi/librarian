@@ -1,8 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export function Header() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/signin");
+  };
 
   return (
     <div className="flex justify-between my-5 relative">
@@ -19,6 +25,9 @@ export function Header() {
             <Link to="/rentals" className="block px-4 py-2 hover:bg-gray-100" onClick={() => setOpen(false)}>
               My Rentals
             </Link>
+            <button onClick={handleLogout} className="block w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer">
+              Logout
+            </button>
           </div>
         )}
       </div>
