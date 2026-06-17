@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class RentalService {
@@ -24,6 +25,18 @@ public class RentalService {
 
   @Autowired
   private UserRepository userRepository;
+
+  public List<RentalResponse> getRentalsByUser(String email) {
+    User user = userRepository.findByEmail(email)
+        .orElseThrow(() -> new RuntimeException("User not found"));
+
+    return rentalRepository.findByUserId(user.getId()).stream()
+        .map(r -> new RentalResponse(
+            r.getId(), r.getUser().getId(), r.getUser().getEmail(),
+            r.getBook().getId(), r.getBook().getTitle(), r.getBook().getAuthor(),
+            r.getRentDate(), r.getDueDate(), r.getStatus()))
+        .toList();
+  }
 
   @Transactional
   public RentalResponse rentBook(String email, Long bookId, LocalDate dueDate) {
