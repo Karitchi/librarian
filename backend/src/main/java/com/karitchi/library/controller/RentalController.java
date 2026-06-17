@@ -27,6 +27,15 @@ public class RentalController {
     }
   }
 
+  @GetMapping("/all")
+  public ResponseEntity<?> getAllRentals() {
+    try {
+      return ResponseEntity.ok(rentalService.getAllRentals());
+    } catch (RuntimeException e) {
+      return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+    }
+  }
+
   @PostMapping
   public ResponseEntity<?> rentBook(@Valid @RequestBody RentalRequest request,
       Authentication authentication) {

@@ -26,6 +26,15 @@ public class RentalService {
   @Autowired
   private UserRepository userRepository;
 
+  public List<RentalResponse> getAllRentals() {
+    return rentalRepository.findAll().stream()
+        .map(r -> new RentalResponse(
+            r.getId(), r.getUser().getId(), r.getUser().getEmail(),
+            r.getBook().getId(), r.getBook().getTitle(), r.getBook().getAuthor(),
+            r.getRentDate(), r.getDueDate(), r.getStatus()))
+        .toList();
+  }
+
   public List<RentalResponse> getRentalsByUser(String email) {
     User user = userRepository.findByEmail(email)
         .orElseThrow(() -> new RuntimeException("User not found"));
