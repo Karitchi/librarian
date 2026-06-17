@@ -1,5 +1,5 @@
 -- Insert roles (corrected)
-INSERT INTO roles (name) VALUES ('admin'), ('librarian'), ('user')
+INSERT INTO roles (name) VALUES ('librarian'), ('user')
 ON CONFLICT (name) DO NOTHING;  -- Specify which column to check
 
 -- Insert books (if you have them)
