@@ -1,5 +1,5 @@
 import type { Route } from "./+types/rentals";
-import { Link } from "react-router";
+import { Link, redirect } from "react-router";
 
 interface Rental {
   id: number;
@@ -15,6 +15,7 @@ interface Rental {
 
 export async function clientLoader() {
   const token = localStorage.getItem('token');
+  if (!token) throw redirect("/signin");
   const response = await fetch('http://localhost:8080/api/rentals', {
     headers: { 'Authorization': `Bearer ${token}` }
   });

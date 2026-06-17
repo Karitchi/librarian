@@ -1,11 +1,11 @@
 import type { Route } from "./+types/books";
 import { BookCard } from "../components/BookCard";
 import { useState, useEffect } from "react";
-import { Link } from "react-router";  // Import Link
+import { Link, redirect } from "react-router";
 
-// Client-only data loader
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
-  const token = localStorage.getItem('token'); // Get the stored token
+  const token = localStorage.getItem('token');
+  if (!token) throw redirect("/signin");
 
   const response = await fetch('http://localhost:8080/api/books', {
     headers: {
