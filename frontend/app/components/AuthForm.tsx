@@ -42,17 +42,19 @@ export function AuthForm({ title, submitLabel, submittingLabel, onSubmit, bottom
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 bg-white text-black border border-transparent focus:outline-none"
+              placeholder="exemple@email.com"
               required
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-sm mb-1 text-white">Password</label>
+            <label className="block text-sm mb-1 text-white">Mot de passe</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 bg-white text-black border border-transparent focus:outline-none"
+              placeholder="Votre mot de passe"
               required
             />
           </div>
