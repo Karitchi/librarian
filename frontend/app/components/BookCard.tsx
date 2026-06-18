@@ -6,9 +6,9 @@ interface BookCardProps {
 
 export function BookCard({ title, author }: BookCardProps) {
   return (
-    <div className="bg-black rounded-xl h-48 text-white flex flex-col justify-end p-4">
+    <div className="bg-black h-48 text-white flex flex-col justify-end p-4">
       <h3>{title}</h3>
-      <p>by {author}</p>
-    </div >
+      <p>par {author}</p>
+    </div>
   )
 }
