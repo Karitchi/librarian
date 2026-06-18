@@ -25,7 +25,7 @@ export default function Signup() {
   return (
     <div>
       <AuthTabs />
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-8">
         <AuthForm
           title="Inscription"
           submitLabel="Inscription"

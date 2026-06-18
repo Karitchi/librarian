@@ -28,7 +28,7 @@ export default function Signin() {
   return (
     <div>
       <AuthTabs />
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-8">
         <AuthForm
           title="Connexion"
           submitLabel="Connexion"
