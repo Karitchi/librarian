@@ -1,14 +1,11 @@
 import type { Route } from "./+types/_protected.rentals._index";
-import { Link } from "react-router";
+import { RentalCard } from "../components/RentalCard";
 
-interface Rental {
+interface RentalData {
   id: number;
-  userId: number;
-  userEmail: string;
   bookId: number;
   bookTitle: string;
   bookAuthor: string;
-  rentDate: string;
   dueDate: string;
   status: string;
 }
@@ -23,7 +20,7 @@ export async function clientLoader() {
     throw new Error(`Échec du chargement des locations : ${response.status}`);
   }
 
-  return { rentals: await response.json() as Rental[] };
+  return { rentals: await response.json() as RentalData[] };
 }
 
 export function HydrateFallback() {
@@ -41,19 +38,16 @@ export default function Rentals({ loaderData }: Route.ComponentProps) {
         <p>Aucune location pour le moment.</p>
       ) : (
         <div className="space-y-4">
-          {rentals.map((rental: Rental) => (
-            <Link key={rental.id} to={`/books/${rental.bookId}`} className="bg-black p-4 flex justify-between items-center no-underline text-white hover:bg-white hover:text-black border border-transparent hover:border-black">
-              <div>
-                <p className="text-lg">{rental.bookTitle}</p>
-                <p className="text-sm text-gray-400">{rental.bookAuthor}</p>
-              </div>
-              <div className="text-right text-sm">
-                <p>Échéance : {rental.dueDate}</p>
-                <p className={rental.status === "active" ? "" : "text-gray-400"}>
-                  {rental.status === "active" ? "Actif" : "Retourné"}
-                </p>
-              </div>
-            </Link>
+          {rentals.map((rental: RentalData) => (
+            <RentalCard
+              key={rental.id}
+              id={rental.id}
+              bookId={rental.bookId}
+              bookTitle={rental.bookTitle}
+              bookAuthor={rental.bookAuthor}
+              dueDate={rental.dueDate}
+              status={rental.status}
+            />
           ))}
         </div>
       )}
