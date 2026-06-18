@@ -1,6 +1,17 @@
 import type { Route } from "./+types/_protected.books.$id";
 import { BookCard } from "../components/BookCard";
 import { useState } from "react";
+import { toast } from "sonner";
+
+interface Book {
+  id: number;
+  title: string;
+  author: string;
+  summary: string;
+  publicationDate: string;
+  totalQuantity: number;
+  availableQuantity: number;
+}
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const { id } = params;
@@ -15,7 +26,7 @@ export async function clientLoader({ params }: Route.ClientLoaderArgs) {
     throw new Error("Livre introuvable");
   }
 
-  return { book: await response.json() };
+  return { book: (await response.json()) as Book };
 }
 
 export function HydrateFallback() {
@@ -25,8 +36,6 @@ export function HydrateFallback() {
 export default function BookDetail({ loaderData }: Route.ComponentProps) {
   const [book, setBook] = useState(loaderData.book);
   const [renting, setRenting] = useState(false);
-  const [rentError, setRentError] = useState("");
-  const [rentSuccess, setRentSuccess] = useState(false);
 
   if (!book) {
     return <div>Livre introuvable</div>;
@@ -34,8 +43,6 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
 
   const handleRent = async () => {
     setRenting(true);
-    setRentError("");
-    setRentSuccess(false);
 
     try {
       const token = localStorage.getItem('token');
@@ -49,14 +56,14 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
       });
 
       if (response.ok) {
-        setRentSuccess(true);
+        toast.success("Livre emprunté avec succès !");
         setBook(prev => ({ ...prev, availableQuantity: prev.availableQuantity - 1 }));
       } else {
         const data = await response.json();
-        setRentError(data.error || "Échec de l'emprunt");
+        toast.error(data.error || "Échec de l'emprunt");
       }
     } catch (err) {
-      setRentError("Impossible de se connecter au serveur");
+      toast.error("Impossible de se connecter au serveur");
     } finally {
       setRenting(false);
     }
@@ -81,18 +88,6 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
         <h3 className="text-lg underline">Exemplaires disponibles</h3>
         <p>{book.availableQuantity} / {book.totalQuantity}</p>
       </div>
-
-      {rentSuccess && (
-        <div className="">
-          Livre emprunté avec succès !
-        </div>
-      )}
-
-      {rentError && (
-        <div className="">
-          {rentError}
-        </div>
-      )}
 
       <button
         onClick={handleRent}

@@ -10,6 +10,7 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 
+import { Toaster } from "sonner";
 import { Header } from "./components/Header";
 
 export const links: Route.LinksFunction = () => [];
@@ -23,11 +24,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="px-5 font-k2d">
+      <body className="px-5 font-k2d max-w-5xl mx-auto">
         <Header />
-        <div className="max-w-5xl mx-auto">
-          {children}
-        </div>
+        {children}
+        <Toaster
+          toastOptions={{
+            style: { background: "#000", color: "#fff", border: "1px solid #fff" },
+          }}
+        />
         <ScrollRestoration />
         <Scripts />
       </body>
