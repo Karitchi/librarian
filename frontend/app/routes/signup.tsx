@@ -14,7 +14,8 @@ export default function Signup() {
     });
 
     if (!response.ok) {
-      throw new Error("Signup failed. Email may already exist.");
+      const data = await response.json().catch(() => ({}));
+      throw new Error(data.message || "Inscription échouée. Cet email existe peut-être déjà.");
     }
 
     toast.success("Inscription réussie");

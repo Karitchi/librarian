@@ -14,7 +14,8 @@ export default function Signin() {
     });
 
     if (!response.ok) {
-      throw new Error("Invalid email or password");
+      const data = await response.json().catch(() => ({}));
+      throw new Error(data.message || "Email ou mot de passe invalide");
     }
 
     const data = await response.json();

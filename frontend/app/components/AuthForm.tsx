@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import { toast } from "sonner";
 
 interface AuthFormProps {
   title: string;
@@ -14,18 +15,16 @@ interface AuthFormProps {
 export function AuthForm({ title, submitLabel, submittingLabel, onSubmit, bottomText, bottomLink, bottomLinkLabel }: AuthFormProps) {
   const [email, setEmail] = useState("test@test.com");
   const [password, setPassword] = useState("testtest");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     try {
       await onSubmit(email, password);
     } catch (err: any) {
-      setError(err?.message || "Cannot connect to server");
+      toast.error(err?.message || "Impossible de se connecter au serveur");
     } finally {
       setLoading(false);
     }
@@ -34,12 +33,6 @@ export function AuthForm({ title, submitLabel, submittingLabel, onSubmit, bottom
   return (
     <div className="bg-black p-8 w-96">
         <h1 className="text-2xl mb-6 text-center text-white">{title}</h1>
-
-        {error && (
-          <div className="bg-white text-black p-2 mb-4 text-sm">
-            {error}
-          </div>
-        )}
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
