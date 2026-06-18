@@ -31,29 +31,29 @@ export function AuthForm({ title, submitLabel, submittingLabel, onSubmit, bottom
   };
 
   return (
-    <div className="border border-black p-8 w-96">
-        <h1 className="text-2xl mb-6 text-center text-black">{title}</h1>
+    <div className="bg-black p-8 w-96">
+        <h1 className="text-2xl mb-6 text-center text-white">{title}</h1>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-sm mb-1 text-black">Email</label>
+            <label className="block text-sm mb-1 text-white">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 bg-white text-black border border-black focus:outline-none"
+              className="w-full px-3 py-2 bg-white text-black border border-transparent focus:outline-none"
               placeholder="exemple@email.com"
               required
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-sm mb-1 text-black">Mot de passe</label>
+            <label className="block text-sm mb-1 text-white">Mot de passe</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 bg-white text-black border border-black focus:outline-none"
+              className="w-full px-3 py-2 bg-white text-black border border-transparent focus:outline-none"
               placeholder="Votre mot de passe"
               required
             />
@@ -62,15 +62,15 @@ export function AuthForm({ title, submitLabel, submittingLabel, onSubmit, bottom
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-white text-black py-2 cursor-pointer border border-black hover:bg-black hover:text-white disabled:opacity-50"
+            className="w-full bg-white text-black py-2 cursor-pointer border border-black hover:bg-black hover:text-white hover:border-white disabled:opacity-50"
           >
             {loading ? submittingLabel : submitLabel}
           </button>
         </form>
 
-        <p className="text-sm text-center mt-4 text-black">
+        <p className="text-sm text-center mt-4 text-white">
           {bottomText}{" "}
-          <Link to={bottomLink} className="text-black underline">
+          <Link to={bottomLink} className="text-white underline">
             {bottomLinkLabel}
           </Link>
         </p>
