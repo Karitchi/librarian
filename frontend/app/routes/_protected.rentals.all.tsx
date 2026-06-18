@@ -21,14 +21,14 @@ export async function clientLoader() {
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch all rentals: ${response.status}`);
+    throw new Error(`Échec du chargement des locations : ${response.status}`);
   }
 
   return { rentals: await response.json() as Rental[] };
 }
 
 export function HydrateFallback() {
-  return <div>Loading all rentals...</div>;
+  return <div>Chargement...</div>;
 }
 
 export default function AllRentals({ loaderData }: Route.ComponentProps) {
@@ -49,30 +49,30 @@ export default function AllRentals({ loaderData }: Route.ComponentProps) {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">All Rentals</h1>
+    <div>
+      <h1 className="text-lg underline mb-6">Toutes les locations</h1>
 
       {rentals.length === 0 ? (
-        <p className="text-gray-500">No rentals yet.</p>
+        <p>Aucune location pour le moment.</p>
       ) : (
         <div className="space-y-4">
           {rentals.map((rental: Rental) => (
-            <div key={rental.id} className="bg-gray-50 p-4 rounded-lg flex justify-between items-center">
+            <div key={rental.id} className="bg-black p-4 flex justify-between items-center text-white">
               <div>
-                <Link to={`/books/${rental.bookId}`} className="text-lg font-semibold text-blue-600 hover:underline">
+                <Link to={`/books/${rental.bookId}`} className="text-lg text-white border border-transparent hover:bg-white hover:text-black hover:border-black no-underline">
                   {rental.bookTitle}
                 </Link>
-                <p className="text-sm text-gray-600">{rental.bookAuthor}</p>
-                <p className="text-xs text-gray-500">by {rental.userEmail}</p>
+                <p className="text-sm text-gray-400">{rental.bookAuthor}</p>
+                <p className="text-xs text-gray-500">par {rental.userEmail}</p>
               </div>
               <div className="text-right text-sm">
-                <p>Due: {rental.dueDate}</p>
-                <p className={rental.status === "active" ? "text-green-600" : "text-gray-500"}>
-                  {rental.status}
+                <p>Échéance : {rental.dueDate}</p>
+                <p className={rental.status === "active" ? "" : "text-gray-400"}>
+                  {rental.status === "active" ? "Actif" : "Retourné"}
                 </p>
                 {rental.status === "active" && (
-                  <button onClick={() => handleReturn(rental.id)} className="mt-2 bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700 cursor-pointer">
-                    Return
+                  <button onClick={() => handleReturn(rental.id)} className="mt-2 bg-white text-black px-3 py-1 text-xs cursor-pointer border border-black hover:bg-black hover:text-white hover:border-white">
+                    Retour
                   </button>
                 )}
               </div>
