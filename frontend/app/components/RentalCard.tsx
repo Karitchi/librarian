@@ -13,11 +13,9 @@ interface RentalCardProps {
 
 export function RentalCard({ id, bookId, bookTitle, bookAuthor, userEmail, dueDate, status, onReturn }: RentalCardProps) {
   return (
-    <div className="bg-black p-4 flex justify-between items-center text-white">
+    <Link to={`/books/${bookId}`} className="bg-black p-4 flex justify-between items-center no-underline text-white hover:bg-white hover:text-black border border-transparent hover:border-black">
       <div>
-        <Link to={`/books/${bookId}`} className="text-lg text-white border border-transparent hover:bg-white hover:text-black hover:border-black no-underline">
-          {bookTitle}
-        </Link>
+        <p className="text-lg">{bookTitle}</p>
         <p className="text-sm text-gray-400">{bookAuthor}</p>
         {userEmail && <p className="text-xs text-gray-500">par {userEmail}</p>}
       </div>
@@ -27,11 +25,11 @@ export function RentalCard({ id, bookId, bookTitle, bookAuthor, userEmail, dueDa
           {status === "active" ? "Actif" : "Retourné"}
         </p>
         {status === "active" && onReturn && (
-          <button onClick={() => onReturn(id)} className="mt-2 bg-white text-black px-3 py-1 text-xs cursor-pointer border border-black hover:bg-black hover:text-white hover:border-white">
+          <button onClick={(e) => { e.stopPropagation(); onReturn(id); }} className="mt-2 bg-white text-black px-3 py-1 text-xs cursor-pointer border border-black hover:bg-black hover:text-white hover:border-white">
             Retour
           </button>
         )}
       </div>
-    </div>
+    </Link>
   );
 }
