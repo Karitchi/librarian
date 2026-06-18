@@ -28,7 +28,7 @@ export default function Signin() {
   return (
     <div>
       <AuthTabs />
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex justify-center">
         <AuthForm
           title="Connexion"
           submitLabel="Connexion"

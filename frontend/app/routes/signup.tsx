@@ -25,7 +25,7 @@ export default function Signup() {
   return (
     <div>
       <AuthTabs />
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex justify-center">
         <AuthForm
           title="Inscription"
           submitLabel="Inscription"
