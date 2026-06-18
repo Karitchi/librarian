@@ -42,20 +42,18 @@ export default function Rentals({ loaderData }: Route.ComponentProps) {
       ) : (
         <div className="space-y-4">
           {rentals.map((rental: Rental) => (
-            <div key={rental.id} className="bg-black p-4 flex justify-between items-center">
+            <Link key={rental.id} to={`/books/${rental.bookId}`} className="bg-black p-4 flex justify-between items-center no-underline hover:bg-white hover:text-black border border-transparent hover:border-black">
               <div>
-                <Link to={`/books/${rental.bookId}`} className="text-lg text-white border border-transparent hover:bg-white hover:text-black hover:border-black no-underline">
-                  {rental.bookTitle}
-                </Link>
+                <p className="text-lg text-inherit">{rental.bookTitle}</p>
                 <p className="text-sm text-gray-400">{rental.bookAuthor}</p>
               </div>
               <div className="text-right text-sm">
-                <p className="text-white">Échéance : {rental.dueDate}</p>
-                <p className={rental.status === "active" ? "text-white" : "text-gray-400"}>
+                <p className="text-inherit">Échéance : {rental.dueDate}</p>
+                <p className={rental.status === "active" ? "text-inherit" : "text-gray-400"}>
                   {rental.status === "active" ? "Actif" : "Retourné"}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
