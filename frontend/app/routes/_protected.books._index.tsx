@@ -91,10 +91,10 @@ export default function Books() {
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           placeholder="Rechercher par titre ou auteur..."
-          className="w-full bg-black text-white border border-white px-4 py-2 outline-none placeholder:text-neutral-500"
+          className="w-full bg-black text-white border border-white px-4 py-2 outline-none placeholder:text-neutral-400"
         />
         <svg
-          className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-500"
+          className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -110,7 +110,7 @@ export default function Books() {
           ))}
         </div>
       ) : books.length === 0 ? (
-        <p className="text-neutral-500 text-center py-12">Aucun livre trouvé</p>
+        <p className="text-neutral-400 text-center py-12">Aucun livre trouvé</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {books.map((book, i) => (

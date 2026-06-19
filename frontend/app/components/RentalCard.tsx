@@ -21,12 +21,12 @@ export function RentalCard({ id, bookId, bookTitle, bookAuthor, userEmail, dueDa
     >
       <div>
         <p className="text-lg">{bookTitle}</p>
-        <p className="text-sm text-gray-400">{bookAuthor}</p>
-        {userEmail && <p className="text-xs text-gray-500">par {userEmail}</p>}
+        <p className="text-sm text-gray-300">{bookAuthor}</p>
+        {userEmail && <p className="text-xs text-gray-400">par {userEmail}</p>}
       </div>
       <div className="text-right text-sm">
         <p>Échéance : {dueDate}</p>
-        <p className={status === "active" ? "" : "text-gray-400"}>
+        <p className={status === "active" ? "" : "text-gray-300"}>
           {status === "active" ? "Actif" : "Retourné"}
         </p>
         {status === "active" && onReturn && (

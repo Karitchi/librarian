@@ -32,7 +32,7 @@ export function BookCard({ title, author, coverImage, priority }: BookCardProps)
       )}
       <div className={`relative z-10 ${imgSrc ? 'bg-black/70 p-2' : ''}`}>
         <h3 className="text-sm leading-tight">{title}</h3>
-        <p className="text-xs opacity-80">par {author}</p>
+        <p className="text-xs opacity-90">par {author}</p>
       </div>
     </div>
   )
