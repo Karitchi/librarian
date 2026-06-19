@@ -29,6 +29,9 @@ public class Book {
   @Column(name = "available_quantity")
   private Integer availableQuantity = 1;
 
+  @Column(name = "cover_image")
+  private String coverImage;
+
   @Column(name = "created_at")
   private LocalDate createdAt = LocalDate.now();
 
@@ -91,6 +94,14 @@ public class Book {
 
   public void setAvailableQuantity(Integer availableQuantity) {
     this.availableQuantity = availableQuantity;
+  }
+
+  public String getCoverImage() {
+    return coverImage;
+  }
+
+  public void setCoverImage(String coverImage) {
+    this.coverImage = coverImage;
   }
 
   public LocalDate getCreatedAt() {

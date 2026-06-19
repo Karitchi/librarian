@@ -31,7 +31,7 @@ public class SecurityConfig {
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/auth/signup", "/api/auth/signin", "/api/ping").permitAll()
+            .requestMatchers("/api/auth/signup", "/api/auth/signin", "/api/ping", "/covers/**").permitAll()
             .requestMatchers("/api/rentals/all", "/api/rentals/*/return").hasRole("librarian")
             .anyRequest().authenticated())
         .sessionManagement(session -> session

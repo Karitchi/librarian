@@ -57,3 +57,6 @@ CREATE INDEX IF NOT EXISTS idx_rentals_status ON rentals(status);
 -- Unique index for ON CONFLICT in data.sql (idempotent)
 CREATE UNIQUE INDEX IF NOT EXISTS books_title_author_idx ON books (title, author);
 
+-- Migrate: add cover_image column if missing
+ALTER TABLE books ADD COLUMN IF NOT EXISTS cover_image VARCHAR(255);
+

@@ -35,6 +35,7 @@ export default function Books({ loaderData }: Route.ComponentProps) {
           <BookCard
             title={book.title}
             author={book.author}
+            coverImage={book.coverImage}
           />
         </Link>
       ))}

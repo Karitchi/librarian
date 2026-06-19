@@ -11,6 +11,7 @@ interface Book {
   publicationDate: string;
   totalQuantity: number;
   availableQuantity: number;
+  coverImage: string | null;
 }
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
@@ -74,6 +75,7 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
       <BookCard
         title={book.title}
         author={book.author}
+        coverImage={book.coverImage}
       />
       <div>
         <h3 className="text-lg underline">Résumé</h3>
