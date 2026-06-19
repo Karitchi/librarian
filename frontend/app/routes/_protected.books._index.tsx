@@ -1,5 +1,6 @@
+import type { Route } from "./+types/_protected.books._index";
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { BookCard } from "../components/BookCard";
 
 interface Book {
@@ -17,22 +18,57 @@ interface BookPage {
   pageSize: number;
 }
 
-export default function Books() {
-  const [books, setBooks] = useState<Book[]>([]);
+export async function clientLoader({ request }: Route.ClientLoaderArgs) {
+  const url = new URL(request.url);
+  const search = url.searchParams.get("search") || "";
+  const token = localStorage.getItem("token");
+  const params = new URLSearchParams({ page: "0", size: "20" });
+  if (search) params.set("search", search);
+
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/api/books?${params}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!response.ok) throw new Error(`Erreur ${response.status}`);
+
+  const data: BookPage = await response.json();
+  return new Response(JSON.stringify(data), {
+    headers: { "Cache-Control": "max-age=300" },
+  });
+}
+
+export function HydrateFallback() {
+  return <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {Array.from({ length: 8 }).map((_, i) => (
+      <div key={i} className="bg-neutral-800 h-56 animate-pulse" />
+    ))}
+  </div>;
+}
+
+export default function Books({ loaderData }: Route.ComponentProps) {
+  const initialPage = loaderData as BookPage;
+
+  const [books, setBooks] = useState<Book[]>(initialPage.content);
   const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(initialPage.currentPage + 1 < initialPage.totalPages);
   const [loading, setLoading] = useState(false);
-  const [initialLoading, setInitialLoading] = useState(true);
-  const [search, setSearch] = useState("");
-  const [searchInput, setSearchInput] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentSearch = searchParams.get("search") || "";
+  const [searchInput, setSearchInput] = useState(currentSearch);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
-  const fetchBooks = useCallback(async (pageNum: number, searchQuery: string, replace: boolean) => {
+  useEffect(() => {
+    setBooks(initialPage.content);
+    setPage(0);
+    setHasMore(initialPage.currentPage + 1 < initialPage.totalPages);
+  }, [initialPage]);
+
+  const fetchBooks = useCallback(async (pageNum: number, replace: boolean) => {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
       const params = new URLSearchParams({ page: String(pageNum), size: "20" });
-      if (searchQuery) params.set("search", searchQuery);
+      if (currentSearch) params.set("search", currentSearch);
 
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/books?${params}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -47,19 +83,13 @@ export default function Books() {
       setHasMore(false);
     } finally {
       setLoading(false);
-      setInitialLoading(false);
     }
-  }, []);
-
-  useEffect(() => {
-    setPage(0);
-    fetchBooks(0, search, true);
-  }, [search, fetchBooks]);
+  }, [currentSearch]);
 
   useEffect(() => {
     if (page === 0) return;
-    fetchBooks(page, search, false);
-  }, [page, search, fetchBooks]);
+    fetchBooks(page, false);
+  }, [page, fetchBooks]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -79,9 +109,15 @@ export default function Books() {
   }, [hasMore, loading]);
 
   useEffect(() => {
-    const timer = setTimeout(() => setSearch(searchInput), 300);
+    const timer = setTimeout(() => {
+      if (searchInput) {
+        setSearchParams({ search: searchInput });
+      } else {
+        setSearchParams({});
+      }
+    }, 300);
     return () => clearTimeout(timer);
-  }, [searchInput]);
+  }, [searchInput, setSearchParams]);
 
   return (
     <div className="space-y-6">
@@ -95,7 +131,7 @@ export default function Books() {
         />
         {searchInput ? (
           <button
-            onClick={() => { setSearchInput(""); setSearch(""); }}
+            onClick={() => { setSearchInput(""); setSearchParams({}); }}
             className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400 hover:text-white cursor-pointer"
             aria-label="Effacer la recherche"
           >
@@ -115,13 +151,7 @@ export default function Books() {
         )}
       </div>
 
-      {initialLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="bg-neutral-800 h-56 animate-pulse" />
-          ))}
-        </div>
-      ) : books.length === 0 ? (
+      {books.length === 0 ? (
         <p className="text-neutral-400 text-center py-12">Aucun livre trouvé</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -144,7 +174,7 @@ export default function Books() {
 
       <div ref={sentinelRef} className="h-4" />
 
-      {loading && !initialLoading && (
+      {loading && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <div key={`skeleton-${i}`} className="bg-neutral-800 h-56 animate-pulse" />
