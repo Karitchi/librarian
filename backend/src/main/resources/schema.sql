@@ -54,3 +54,6 @@ CREATE INDEX IF NOT EXISTS idx_rentals_user_id ON rentals(user_id);
 CREATE INDEX IF NOT EXISTS idx_rentals_book_id ON rentals(book_id);
 CREATE INDEX IF NOT EXISTS idx_rentals_status ON rentals(status);
 
+-- Unique index for ON CONFLICT in data.sql (idempotent)
+CREATE UNIQUE INDEX IF NOT EXISTS books_title_author_idx ON books (title, author);
+
