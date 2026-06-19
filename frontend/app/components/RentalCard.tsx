@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 
 interface RentalCardProps {
   id: number;
@@ -12,8 +12,13 @@ interface RentalCardProps {
 }
 
 export function RentalCard({ id, bookId, bookTitle, bookAuthor, userEmail, dueDate, status, onReturn }: RentalCardProps) {
+  const navigate = useNavigate();
+
   return (
-    <Link to={`/books/${bookId}`} className="bg-black p-4 flex justify-between items-center no-underline text-white hover:bg-white hover:text-black border border-transparent hover:border-black">
+    <div
+      onClick={() => navigate(`/books/${bookId}`)}
+      className="bg-black p-4 flex justify-between items-center no-underline text-white hover:bg-white hover:text-black border border-transparent hover:border-black cursor-pointer"
+    >
       <div>
         <p className="text-lg">{bookTitle}</p>
         <p className="text-sm text-gray-400">{bookAuthor}</p>
@@ -30,6 +35,6 @@ export function RentalCard({ id, bookId, bookTitle, bookAuthor, userEmail, dueDa
           </button>
         )}
       </div>
-    </Link>
+    </div>
   );
 }
