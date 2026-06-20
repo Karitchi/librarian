@@ -2,6 +2,10 @@
 
 Démo interactive d'une application de gestion de bibliothèque, construite avec **Java Spring Boot** et **React Router**.
 
+![Maquette Figma](assets/Mockup.png)
+
+> J'ai d'abord réalisé cette maquette sur **Figma** pour concevoir l'interface avant de commencer le développement.
+
 > Ce projet est un **projet d'apprentissage personnel** — il sert de terrain de jeu pour explorer Spring Boot 4, React Router v7, Docker, et l'intégration avec des assistants IA dans le développement web.
 
 ---
@@ -23,7 +27,7 @@ Démo interactive d'une application de gestion de bibliothèque, construite avec
 | Backend | Java 25, Spring Boot 4.1, Spring Security + JWT, Spring Data JPA / Hibernate |
 | Base de données | PostgreSQL 18 |
 | Conteneurisation | Docker Compose (db, api, web) |
-| Exposition | Cloudflare Tunnel (https://librarian.karitchi.com) |
+| Exposition | Cloudflare Tunnel (<https://librarian.karitchi.com>) |
 
 ## Démarrage en développement
 
@@ -44,13 +48,13 @@ Copier les fichiers `.env.example` vers `.env` et remplir les valeurs manquantes
 
 Ce projet a été développé en tandem avec **opencode** (agent CLI d'IA générative). L'IA a été utilisée pour :
 
-- Générer la quasi-totalité du code (composants React, contrôleurs, services, configuration)
+- Générer du code (composants React, contrôleurs, services, configuration)
 - Corriger des bugs et des violations de typage
 - Guider les choix d'architecture (structure des routes, sécurité, organisation des fichiers)
 - Télécharger et intégrer 55 couvertures de livres depuis Open Library
 - Rédiger la documentation et les fichiers de configuration
 
-Le développeur humain a supervisé chaque modification, validé le comportement et fourni les orientations fonctionnelles (choix esthétiques, décisions d'infrastructure, contraintes de sécurité).
+J'ai supervisé chaque modification, validé le comportement et fourni les orientations fonctionnelles (choix esthétiques, décisions d'infrastructure, contraintes de sécurité).
 
 ## Déploiement
 
